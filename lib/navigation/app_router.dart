@@ -30,7 +30,10 @@ class AppRouter {
       case '/recipe-detail':
         final args = settings.arguments as Map<String, dynamic>?;
         return _createRoute(
-          RecipeDetailScreen(recipeId: args?['recipeId'] ?? ''),
+          RecipeDetailScreen(
+            recipe: args?['recipe'],
+            recipeId: args?['recipeId'],
+          ),
         );
       case '/onboarding':
         return _createRoute(const OnboardingScreen());

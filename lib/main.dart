@@ -5,12 +5,17 @@ import 'providers/theme_provider.dart';
 import 'theme/app_theme.dart';
 import 'navigation/app_router.dart';
 import 'navigation/navigation_service.dart';
+import 'services/ai_service_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Hive for local storage
   await Hive.initFlutter();
+
+  // Initialize AI services
+  // Note: In production, you would load the API key from secure storage or environment
+  await AIServiceManager().initialize();
 
   runApp(const FlutterAIMVPApp());
 }
