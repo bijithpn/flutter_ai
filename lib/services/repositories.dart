@@ -10,14 +10,19 @@ class RecipeRepository extends HiveStorageRepository<Recipe> {
   /// Get recipes by difficulty level
   Future<List<Recipe>> getRecipesByDifficulty(String difficulty) async {
     final allRecipes = await loadAll();
-    return allRecipes.where((recipe) => recipe.difficulty == difficulty).toList();
+    return allRecipes
+        .where((recipe) => recipe.difficulty == difficulty)
+        .toList();
   }
 
   /// Get recipes by cooking time range
   Future<List<Recipe>> getRecipesByCookingTime(int minTime, int maxTime) async {
     final allRecipes = await loadAll();
     return allRecipes
-        .where((recipe) => recipe.cookingTime >= minTime && recipe.cookingTime <= maxTime)
+        .where(
+          (recipe) =>
+              recipe.cookingTime >= minTime && recipe.cookingTime <= maxTime,
+        )
         .toList();
   }
 
@@ -25,8 +30,11 @@ class RecipeRepository extends HiveStorageRepository<Recipe> {
   Future<List<Recipe>> searchByIngredient(String ingredient) async {
     final allRecipes = await loadAll();
     return allRecipes
-        .where((recipe) => recipe.ingredients
-            .any((ing) => ing.toLowerCase().contains(ingredient.toLowerCase())))
+        .where(
+          (recipe) => recipe.ingredients.any(
+            (ing) => ing.toLowerCase().contains(ingredient.toLowerCase()),
+          ),
+        )
         .toList();
   }
 
@@ -43,17 +51,25 @@ class PoseDataRepository extends HiveStorageRepository<PoseData> {
   PoseDataRepository() : super(BoxNames.poseData);
 
   /// Get pose data within a time range
-  Future<List<PoseData>> getPoseDataInRange(DateTime start, DateTime end) async {
+  Future<List<PoseData>> getPoseDataInRange(
+    DateTime start,
+    DateTime end,
+  ) async {
     final allPoseData = await loadAll();
     return allPoseData
-        .where((pose) => pose.timestamp.isAfter(start) && pose.timestamp.isBefore(end))
+        .where(
+          (pose) =>
+              pose.timestamp.isAfter(start) && pose.timestamp.isBefore(end),
+        )
         .toList();
   }
 
   /// Get pose data with minimum confidence
   Future<List<PoseData>> getPoseDataByConfidence(double minConfidence) async {
     final allPoseData = await loadAll();
-    return allPoseData.where((pose) => pose.confidence >= minConfidence).toList();
+    return allPoseData
+        .where((pose) => pose.confidence >= minConfidence)
+        .toList();
   }
 }
 
@@ -66,10 +82,14 @@ class NoteSummaryRepository extends HiveStorageRepository<NoteSummary> {
     final allSummaries = await loadAll();
     final lowerKeyword = keyword.toLowerCase();
     return allSummaries
-        .where((summary) =>
-            summary.summary.toLowerCase().contains(lowerKeyword) ||
-            summary.originalText.toLowerCase().contains(lowerKeyword) ||
-            summary.keyPoints.any((point) => point.toLowerCase().contains(lowerKeyword)))
+        .where(
+          (summary) =>
+              summary.summary.toLowerCase().contains(lowerKeyword) ||
+              summary.originalText.toLowerCase().contains(lowerKeyword) ||
+              summary.keyPoints.any(
+                (point) => point.toLowerCase().contains(lowerKeyword),
+              ),
+        )
         .toList();
   }
 
@@ -81,11 +101,17 @@ class NoteSummaryRepository extends HiveStorageRepository<NoteSummary> {
   }
 
   /// Get summaries by date range
-  Future<List<NoteSummary>> getSummariesInRange(DateTime start, DateTime end) async {
+  Future<List<NoteSummary>> getSummariesInRange(
+    DateTime start,
+    DateTime end,
+  ) async {
     final allSummaries = await loadAll();
     return allSummaries
-        .where((summary) => 
-            summary.createdAt.isAfter(start) && summary.createdAt.isBefore(end))
+        .where(
+          (summary) =>
+              summary.createdAt.isAfter(start) &&
+              summary.createdAt.isBefore(end),
+        )
         .toList();
   }
 }
@@ -95,17 +121,27 @@ class WorkoutSessionRepository extends HiveStorageRepository<WorkoutSession> {
   WorkoutSessionRepository() : super(BoxNames.workoutSessions);
 
   /// Get sessions by exercise type
-  Future<List<WorkoutSession>> getSessionsByExerciseType(String exerciseType) async {
+  Future<List<WorkoutSession>> getSessionsByExerciseType(
+    String exerciseType,
+  ) async {
     final allSessions = await loadAll();
-    return allSessions.where((session) => session.exerciseType == exerciseType).toList();
+    return allSessions
+        .where((session) => session.exerciseType == exerciseType)
+        .toList();
   }
 
   /// Get sessions within a date range
-  Future<List<WorkoutSession>> getSessionsInRange(DateTime start, DateTime end) async {
+  Future<List<WorkoutSession>> getSessionsInRange(
+    DateTime start,
+    DateTime end,
+  ) async {
     final allSessions = await loadAll();
     return allSessions
-        .where((session) => 
-            session.startTime.isAfter(start) && session.startTime.isBefore(end))
+        .where(
+          (session) =>
+              session.startTime.isAfter(start) &&
+              session.startTime.isBefore(end),
+        )
         .toList();
   }
 
@@ -119,13 +155,16 @@ class WorkoutSessionRepository extends HiveStorageRepository<WorkoutSession> {
   /// Calculate total workout time for a date range
   Future<Duration> getTotalWorkoutTime(DateTime start, DateTime end) async {
     final sessions = await getSessionsInRange(start, end);
-    return sessions.fold<Duration>(Duration.zero, (total, session) => total + session.duration);
+    return sessions.fold<Duration>(
+      Duration.zero,
+      (total, session) => total + session.duration,
+    );
   }
 
   /// Get workout statistics
   Future<Map<String, dynamic>> getWorkoutStats() async {
     final allSessions = await loadAll();
-    
+
     if (allSessions.isEmpty) {
       return {
         'totalSessions': 0,
@@ -137,21 +176,21 @@ class WorkoutSessionRepository extends HiveStorageRepository<WorkoutSession> {
     }
 
     final totalDuration = allSessions.fold<Duration>(
-      Duration.zero, 
+      Duration.zero,
       (total, session) => total + session.duration,
     );
-    
+
     final averageDuration = Duration(
       milliseconds: totalDuration.inMilliseconds ~/ allSessions.length,
     );
-    
+
     final exerciseTypes = allSessions
         .map((session) => session.exerciseType)
         .toSet()
         .toList();
-    
+
     final totalCorrectPostures = allSessions.fold(
-      0, 
+      0,
       (total, session) => total + session.correctPostureCount,
     );
 
@@ -189,7 +228,7 @@ class AppSettingsRepository extends HiveStorageRepository<AppSettings> {
     bool? enableHapticFeedback,
   }) async {
     final currentSettings = await getCurrentSettings();
-    
+
     if (currentSettings != null) {
       final updatedSettings = currentSettings.copyWith(
         themeMode: themeMode,
