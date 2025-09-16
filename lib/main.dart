@@ -21,6 +21,9 @@ void main() async {
   if (!Hive.isAdapterRegistered(2)) {
     Hive.registerAdapter(PoseDataAdapter());
   }
+  if (!Hive.isAdapterRegistered(3)) {
+    Hive.registerAdapter(NoteSummaryAdapter());
+  }
   if (!Hive.isAdapterRegistered(4)) {
     Hive.registerAdapter(WorkoutSessionAdapter());
   }
@@ -48,6 +51,12 @@ class FlutterAIMVPApp extends StatelessWidget {
             workoutRepository: HiveStorageRepository<WorkoutSession>(
               "workout_session",
             ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotesProvider(
+            aiServiceManager: AIServiceManager(),
+            notesRepository: HiveStorageRepository<NoteSummary>("note_summary"),
           ),
         ),
       ],

@@ -10,3 +10,5 @@ export 'error_widgets.dart';
 export 'pose_overlay.dart';
 export 'feedback_overlay.dart';
 export 'skeleton_renderer.dart';
+export 'note_editor.dart';
+export 'summary_card.dart';
