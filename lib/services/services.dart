@@ -11,3 +11,7 @@ export 'ai_service.dart';
 export 'openai_service.dart';
 export 'connectivity_service.dart';
 export 'ai_service_manager.dart';
+
+// Pose detection services
+export 'pose_detection_service.dart';
+export 'camera_permission_service.dart';

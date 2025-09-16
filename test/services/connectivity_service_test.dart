@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
-import '../../lib/services/connectivity_service.dart';
+import 'package:flutter_ai_mvp/services/connectivity_service.dart';
 import 'connectivity_service_test.mocks.dart';
 
 // Generate mocks

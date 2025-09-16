@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../lib/services/ai_service_manager.dart';
-import '../../lib/services/ai_service.dart';
+import 'package:flutter_ai_mvp/services/ai_service_manager.dart';
+import 'package:flutter_ai_mvp/services/ai_service.dart';
 
 // Create a mock AI service for testing
 class MockAIService extends Mock implements AIService {

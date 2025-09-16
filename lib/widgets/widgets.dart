@@ -7,3 +7,6 @@ export 'ingredient_input.dart';
 export 'recipe_card.dart';
 export 'loading_overlay.dart';
 export 'error_widgets.dart';
+export 'pose_overlay.dart';
+export 'feedback_overlay.dart';
+export 'skeleton_renderer.dart';

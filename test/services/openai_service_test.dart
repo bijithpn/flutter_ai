@@ -6,8 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
-import '../../lib/services/openai_service.dart';
-import '../../lib/services/ai_service.dart';
+import 'package:flutter_ai_mvp/services/openai_service.dart';
+import 'package:flutter_ai_mvp/services/ai_service.dart';
 import 'openai_service_test.mocks.dart';
 
 // Generate mocks
